@@ -11,11 +11,11 @@
         },
         {
             "id": "2",
-            "title": "待添加项目",
-            "description": "这是一个待添加的项目占位符，可通过修改projects.json添加新项目。",
-            "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=project%20placeholder%20modern%20design&image_size=landscape_4_3",
-            "link": "#",
-            "tags": ["前端", "开发"],
+            "title": "圣诞树3D交互项目",
+            "description": "一个使用Three.js创建的3D圣诞树交互项目，支持上传照片、手势控制和动态效果。",
+            "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=3D%20Christmas%20tree%20with%20ornaments%20and%20lights%20interactive%20web%20project&image_size=landscape_4_3",
+            "link": "projects/圣诞树.html",
+            "tags": ["前端", "Three.js", "WebGL", "交互设计"],
             "date": "2026-02"
         }
     ]
