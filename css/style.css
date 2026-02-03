@@ -1,0 +1,299 @@
+/* 全局样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    color: var(--text-color);
+    background-color: var(--light-color);
+    line-height: 1.6;
+}
+
+/* 容器样式 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+/* 导航栏样式 */
+.navbar {
+    background-color: var(--white);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-md);
+}
+
+.navbar-brand a {
+    color: var(--primary-color);
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+}
+
+.navbar-menu li {
+    margin-left: var(--spacing-lg);
+}
+
+.navbar-menu a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.navbar-menu a:hover {
+    color: var(--primary-color);
+}
+
+/* 关于我部分 */
+.about-section {
+    padding: var(--spacing-xxl) 0;
+    background-color: var(--white);
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text h2 {
+    font-size: var(--font-size-xxlarge);
+    margin-bottom: var(--spacing-md);
+}
+
+.about-text .highlight {
+    color: var(--primary-color);
+}
+
+.about-text p {
+    margin-bottom: var(--spacing-md);
+    color: var(--text-light);
+}
+
+.social-links {
+    margin-top: var(--spacing-lg);
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius-full);
+    background-color: var(--light-color);
+    color: var(--text-color);
+    transition: all var(--transition-fast);
+    text-decoration: none;
+}
+
+.social-link:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.about-image {
+    flex: 0 0 200px;
+}
+
+.about-image img {
+    width: 100%;
+    height: 200px;
+    border-radius: var(--border-radius-full);
+    object-fit: cover;
+}
+
+/* 技能部分 */
+.skills-section {
+    padding: var(--spacing-xxl) 0;
+    background-color: var(--light-color);
+}
+
+.skills-section h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    font-size: var(--font-size-xlarge);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.skill-item {
+    background-color: var(--white);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.skill-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.skill-item i {
+    font-size: 32px;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+}
+
+.skill-item h3 {
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-large);
+}
+
+.skill-item p {
+    color: var(--text-light);
+    font-size: var(--font-size-base);
+}
+
+/* 项目部分 */
+.projects-section {
+    padding: var(--spacing-xxl) 0;
+    background-color: var(--white);
+}
+
+.projects-section h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    font-size: var(--font-size-xlarge);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.project-card {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.project-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.project-card:hover .project-image img {
+    transform: scale(1.05);
+}
+
+.project-content {
+    padding: var(--spacing-md);
+}
+
+.project-content h3 {
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-large);
+}
+
+.project-content p {
+    margin-bottom: var(--spacing-md);
+    color: var(--text-light);
+    font-size: var(--font-size-base);
+}
+
+.project-link {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--primary-color);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: var(--border-radius-sm);
+    transition: background-color var(--transition-fast);
+}
+
+.project-link:hover {
+    background-color: var(--secondary-color);
+}
+
+/* 页脚样式 */
+.footer {
+    background-color: var(--dark-color);
+    color: var(--white);
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+}
+
+.footer p {
+    margin: 0;
+    font-size: var(--font-size-base);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .about-image {
+        margin-top: var(--spacing-lg);
+    }
+    
+    .navbar .container {
+        flex-direction: column;
+        padding: var(--spacing-md) var(--spacing-md);
+    }
+    
+    .navbar-menu {
+        margin-top: var(--spacing-md);
+    }
+    
+    .navbar-menu li {
+        margin: 0 var(--spacing-sm);
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}

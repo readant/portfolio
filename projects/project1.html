@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>响应式作品集网站 - 个人作品集</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/projects.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a href="../index.html">我的作品集</a>
+                </div>
+                <ul class="navbar-menu">
+                    <li><a href="../index.html#about">关于我</a></li>
+                    <li><a href="../index.html#skills">技能</a></li>
+                    <li><a href="../index.html#projects">项目</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 项目内容 -->
+    <main class="project-page">
+        <div class="container">
+            <!-- 项目头部 -->
+            <section class="project-header">
+                <h1>响应式作品集网站</h1>
+                <div class="project-meta">
+                    <div class="project-meta-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>2026年2月</span>
+                    </div>
+                    <div class="project-meta-item">
+                        <i class="fas fa-tags"></i>
+                        <span>前端, HTML, CSS, JavaScript</span>
+                    </div>
+                    <div class="project-meta-item">
+                        <i class="fas fa-code-branch"></i>
+                        <span>个人项目</span>
+                    </div>
+                </div>
+                <p class="project-description">
+                    一个美观、响应式的个人作品集网站，用于展示个人项目和技能。
+                    采用现代前端技术，支持桌面和移动设备。
+                </p>
+            </section>
+
+            <!-- 项目图片画廊 -->
+            <section class="project-gallery">
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portfolio%20website%20homepage%20modern%20clean%20design&image_size=landscape_16_9" alt="项目截图1">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portfolio%20website%20projects%20grid%20section&image_size=landscape_16_9" alt="项目截图2">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portfolio%20website%20mobile%20responsive%20view&image_size=portrait_16_9" alt="项目截图3">
+                    </div>
+                </div>
+            </section>
+
+            <!-- 项目详细信息 -->
+            <section class="project-details">
+                <h2>项目详情</h2>
+                <div class="project-details-content">
+                    <div class="detail-section">
+                        <h3>项目目标</h3>
+                        <p>创建一个专业的个人作品集网站，用于展示个人技能和项目。</p>
+                        <ul>
+                            <li>实现响应式设计，适配各种设备</li>
+                            <li>创建美观的用户界面</li>
+                            <li>提供清晰的项目展示方式</li>
+                            <li>便于后期维护和更新</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h3>技术栈</h3>
+                        <ul>
+                            <li>HTML5 (语义化标记)</li>
+                            <li>CSS3 (变量、网格布局、弹性布局)</li>
+                            <li>JavaScript (基础交互)</li>
+                            <li>Font Awesome (图标)</li>
+                            <li>GitHub Pages (部署)</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h3>实现功能</h3>
+                        <ul>
+                            <li>响应式导航栏</li>
+                            <li>个人简介展示</li>
+                            <li>技能卡片网格</li>
+                            <li>项目卡片展示</li>
+                            <li>项目详情页面</li>
+                            <li>社交媒体链接</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h3>项目挑战</h3>
+                        <p>在项目开发过程中，主要挑战是实现完全响应式的设计，确保在各种设备上都能提供良好的用户体验。通过使用CSS网格和弹性布局，成功解决了这个问题。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 项目链接 -->
+            <section class="project-links-section">
+                <div class="project-links">
+                    <a href="#" class="project-link-btn">
+                        <i class="fab fa-github"></i>
+                        <span>查看代码</span>
+                    </a>
+                    <a href="#" class="project-link-btn secondary">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>在线演示</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 返回项目列表 -->
+            <section class="back-to-projects">
+                <div class="text-center">
+                    <a href="../index.html#projects" class="project-link-btn secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>返回项目列表</span>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 我的作品集. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script src="../js/projects.js"></script>
+</body>
+</html>

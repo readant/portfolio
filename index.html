@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人作品集</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a href="index.html">我的作品集</a>
+                </div>
+                <ul class="navbar-menu">
+                    <li><a href="#about">关于我</a></li>
+                    <li><a href="#skills">技能</a></li>
+                    <li><a href="#projects">项目</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 个人简介 -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>你好，我是 <span class="highlight">开发者</span></h2>
+                    <p>我是一名热爱编程的前端开发者，专注于创建美观、实用的网页应用。</p>
+                    <p>欢迎来到我的作品集网站，这里展示了我近期的一些项目和技能。</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20developer%20profile%20photo%20headshot%20clean%20background&image_size=square" alt="个人头像">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能列表 -->
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <h2>我的技能</h2>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <i class="fas fa-code"></i>
+                    <h3>HTML5 & CSS3</h3>
+                    <p>响应式网页设计，语义化HTML结构</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-brain"></i>
+                    <h3>JavaScript</h3>
+                    <p>基础JavaScript编程，DOM操作</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>网页设计</h3>
+                    <p>美观的UI设计，用户体验优化</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-tools"></i>
+                    <h3>开发工具</h3>
+                    <p>Git版本控制，VS Code编辑器</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目展示 -->
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <h2>我的项目</h2>
+            <div class="projects-grid" id="projects-grid">
+                <!-- 项目卡片将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 我的作品集. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

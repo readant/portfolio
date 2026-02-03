@@ -1,0 +1,22 @@
+{
+    "projects": [
+        {
+            "id": "1",
+            "title": "响应式作品集网站",
+            "description": "一个美观、响应式的个人作品集网站，用于展示个人项目和技能。",
+            "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portfolio%20website%20preview%20card%20modern%20design&image_size=landscape_4_3",
+            "link": "projects/project1.html",
+            "tags": ["前端", "HTML", "CSS", "JavaScript"],
+            "date": "2026-02"
+        },
+        {
+            "id": "2",
+            "title": "待添加项目",
+            "description": "这是一个待添加的项目占位符，可通过修改projects.json添加新项目。",
+            "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=project%20placeholder%20modern%20design&image_size=landscape_4_3",
+            "link": "#",
+            "tags": ["前端", "开发"],
+            "date": "2026-02"
+        }
+    ]
+}
