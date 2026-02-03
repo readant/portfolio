@@ -1,15 +1,6 @@
 {
     "projects": [
         {
-            "id": "1",
-            "title": "响应式作品集网站",
-            "description": "一个美观、响应式的个人作品集网站，用于展示个人项目和技能。",
-            "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portfolio%20website%20preview%20card%20modern%20design&image_size=landscape_4_3",
-            "link": "projects/portfolio-website/index.html",
-            "tags": ["前端", "HTML", "CSS", "JavaScript"],
-            "date": "2026-02"
-        },
-        {
             "id": "2",
             "title": "圣诞树3D交互项目",
             "description": "一个使用Three.js创建的3D圣诞树交互项目，支持上传照片、手势控制和动态效果。",
