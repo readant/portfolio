@@ -80,10 +80,10 @@ window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
     if (navbar) {
         if (window.scrollY > 50) {
-            navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.backgroundColor = 'rgba(249, 246, 240, 0.95)';
             navbar.style.backdropFilter = 'blur(5px)';
         } else {
-            navbar.style.backgroundColor = 'var(--white)';
+            navbar.style.backgroundColor = 'var(--paper-color)';
             navbar.style.backdropFilter = 'none';
         }
     }

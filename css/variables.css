@@ -1,17 +1,22 @@
 :root {
-    /* 颜色变量 */
-    --primary-color: #3498db;
-    --secondary-color: #2ecc71;
-    --dark-color: #34495e;
-    --light-color: #ecf0f1;
-    --accent-color: #e74c3c;
-    --text-color: #333333;
-    --text-light: #777777;
+    /* 颜色变量 - 国风墨画风格 */
+    --primary-color: #2a2a2a;
+    --secondary-color: #5a5a5a;
+    --dark-color: #1a1a1a;
+    --light-color: #f0ebe3;
+    --accent-color: #8b4513;
+    --text-color: #2a2a2a;
+    --text-light: #5a5a5a;
     --white: #ffffff;
     --black: #000000;
+    --ink-light: #e5e0d8;
+    --ink-medium: #b8b2a8;
+    --ink-dark: #7a7568;
+    --paper-color: #f7f2e8;
+    --bamboo-green: #6a7b35;
     
-    /* 字体变量 */
-    --font-family: 'Arial', sans-serif;
+    /* 字体变量 - 国风墨画风格 */
+    --font-family: 'Noto Serif SC', 'KaiTi', 'SimSun', serif;
     --font-size-base: 16px;
     --font-size-large: 18px;
     --font-size-xlarge: 24px;
@@ -28,15 +33,15 @@
     --spacing-xxl: 48px;
     
     /* 边框变量 */
-    --border-radius-sm: 4px;
-    --border-radius-md: 8px;
-    --border-radius-lg: 12px;
+    --border-radius-sm: 2px;
+    --border-radius-md: 4px;
+    --border-radius-lg: 8px;
     --border-radius-full: 50%;
     
-    /* 阴影变量 */
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+    /* 阴影变量 - 国风墨画风格 */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.25);
     
     /* 过渡变量 */
     --transition-fast: 0.2s ease;

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>礼物查询 - 个人作品集</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 礼物查询页面样式 */
+        .gift-search-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .search-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--paper-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .search-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), transparent);
+        }
+        
+        .password-form {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .password-form h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+        
+        .password-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            border: 1px solid var(--ink-medium);
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: var(--white);
+        }
+        
+        .password-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.1);
+        }
+        
+        .submit-btn {
+            padding: 0.8rem 2rem;
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #6b3410;
+        }
+        
+        .search-content {
+            display: none;
+        }
+        
+        .search-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .search-header h2 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+        
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: flex-end;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--ink-medium);
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: var(--white);
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.1);
+        }
+        
+        .search-btn {
+            padding: 0.8rem 2rem;
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            background-color: #6b3410;
+        }
+        
+        .results-section {
+            margin-top: 2rem;
+        }
+        
+        .results-section h3 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+        
+        .gift-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .gift-item {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background-color: var(--white);
+            border-radius: 4px;
+            border: 1px solid var(--ink-medium);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .gift-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .gift-item h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text-color);
+        }
+        
+        .gift-item p {
+            margin: 0.3rem 0;
+            color: var(--text-light);
+        }
+        
+        .gift-item .gift-name {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        
+        .gift-item .gift-note {
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+        
+        .gift-item .gift-date {
+            font-size: 0.9rem;
+            color: var(--ink-dark);
+            margin-top: 0.5rem;
+        }
+        
+        .empty-result {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+        
+        .management-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--ink-medium);
+        }
+        
+        .management-section h3 {
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .gift-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .gift-form textarea {
+            grid-column: 1 / -1;
+            padding: 0.8rem;
+            border: 1px solid var(--ink-medium);
+            border-radius: 4px;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .gift-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.1);
+        }
+        
+        .form-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: #6b3410;
+        }
+        
+        .btn-secondary {
+            background-color: var(--ink-medium);
+            color: var(--text-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--ink-dark);
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: var(--white);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .gift-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .import-export {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: var(--ink-light);
+            border-radius: 4px;
+        }
+        
+        .import-export h4 {
+            margin: 0 0 1rem 0;
+            color: var(--text-color);
+        }
+        
+        .file-input {
+            margin: 1rem 0;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .success-message {
+            color: #28a745;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .search-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .search-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a href="../index.html">我的作品集</a>
+                </div>
+                <ul class="navbar-menu">
+                    <li><a href="../index.html#about">关于我</a></li>
+                    <li><a href="../index.html#skills">技能</a></li>
+                    <li><a href="../index.html#projects">项目</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 礼物查询页面 -->
+    <main class="gift-search-page">
+        <div class="container">
+            <div class="search-container">
+                <!-- 密码验证表单 -->
+                <div class="password-form" id="passwordForm">
+                    <h2>请输入密码</h2>
+                    <p>提示：密码是作者的农历生日</p>
+                    <input type="password" class="password-input" id="passwordInput" placeholder="请输入密码">
+                    <button class="submit-btn" id="submitPassword">验证</button>
+                    <p class="error-message" id="passwordError" style="display: none;">密码错误，请重试</p>
+                </div>
+
+                <!-- 搜索内容（密码验证后显示） -->
+                <div class="search-content" id="searchContent">
+                    <!-- 搜索头部 -->
+                    <div class="search-header">
+                        <h2>生日礼物查询</h2>
+                        <p>输入姓名搜索对应的生日礼物</p>
+                    </div>
+
+                    <!-- 搜索表单 -->
+                    <form class="search-form" id="searchForm">
+                        <div class="form-group">
+                            <label for="nameInput">寿星姓名</label>
+                            <input type="text" id="nameInput" placeholder="请输入姓名">
+                        </div>
+                        <button type="submit" class="search-btn">
+                            <i class="fas fa-search"></i>
+                            <span>搜索</span>
+                        </button>
+                    </form>
+
+                    <!-- 搜索结果 -->
+                    <div class="results-section">
+                        <h3>搜索结果</h3>
+                        <div id="searchResults">
+                            <div class="empty-result">
+                                <i class="fas fa-gift" style="font-size: 3rem; margin-bottom: 1rem; color: var(--ink-medium);"></i>
+                                <p>请输入姓名进行搜索</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 我的作品集. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- 礼物数据管理脚本 -->
+    <script src="../js/gifts.js"></script>
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化页面
+            initPage();
+        });
+
+        // 初始化页面
+        function initPage() {
+            // 密码验证
+            const passwordForm = document.getElementById('passwordForm');
+            const passwordInput = document.getElementById('passwordInput');
+            const submitPassword = document.getElementById('submitPassword');
+            const passwordError = document.getElementById('passwordError');
+            const searchContent = document.getElementById('searchContent');
+
+            // 搜索功能
+            const searchForm = document.getElementById('searchForm');
+            const nameInput = document.getElementById('nameInput');
+            const searchResults = document.getElementById('searchResults');
+
+            // 密码验证事件
+            submitPassword.addEventListener('click', function() {
+                const password = passwordInput.value;
+                if (verifyPassword(password)) {
+                    // 密码正确，显示搜索内容
+                    passwordForm.style.display = 'none';
+                    searchContent.style.display = 'block';
+                } else {
+                    // 密码错误，显示错误信息
+                    passwordError.style.display = 'block';
+                    setTimeout(() => {
+                        passwordError.style.display = 'none';
+                    }, 3000);
+                }
+            });
+
+            // 搜索表单提交事件
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = nameInput.value.trim();
+                if (name) {
+                    const results = searchGifts(name);
+                    renderGifts(results);
+                } else {
+                    searchResults.innerHTML = `
+                        <div class="empty-result">
+                            <i class="fas fa-gift" style="font-size: 3rem; margin-bottom: 1rem; color: var(--ink-medium);"></i>
+                            <p>请输入姓名进行搜索</p>
+                        </div>
+                    `;
+                }
+            });
+
+            // 渲染礼物列表
+            function renderGifts(gifts) {
+                if (gifts.length === 0) {
+                    searchResults.innerHTML = `
+                        <div class="empty-result">
+                            <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; color: var(--ink-medium);"></i>
+                            <p>未找到匹配的礼物</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const giftList = document.createElement('ul');
+                giftList.className = 'gift-list';
+
+                gifts.forEach(gift => {
+                    const giftItem = document.createElement('li');
+                    giftItem.className = 'gift-item';
+                    giftItem.innerHTML = `
+                        <h4>${gift.name}</h4>
+                        <p class="gift-name">礼物：${gift.gift}</p>
+                        ${gift.note ? `<p class="gift-note">备注：${gift.note}</p>` : ''}
+                        <p class="gift-date">${gift.type || '阳历'}生日：${gift.date}</p>
+                    `;
+                    giftList.appendChild(giftItem);
+                });
+
+                searchResults.innerHTML = '';
+                searchResults.appendChild(giftList);
+            }
+        }
+    </script>
+</body>
+</html>
