@@ -22,30 +22,55 @@ function decryptData(encryptedData) {
     }
 }
 
-// 存储礼物数据
+// 存储礼物数据（优化版，支持大量数据）
 function saveGifts(gifts) {
     try {
-        const encryptedGifts = encryptData(gifts);
-        if (encryptedGifts) {
-            localStorage.setItem('encryptedGifts', encryptedGifts);
-            return true;
+        // 分批处理大量数据，避免localStorage容量限制
+        const batchSize = 50; // 每批存储50个礼物
+        const totalBatches = Math.ceil(gifts.length / batchSize);
+        
+        // 存储总批数
+        localStorage.setItem('giftTotalBatches', totalBatches.toString());
+        
+        // 分批存储礼物数据
+        for (let i = 0; i < totalBatches; i++) {
+            const startIndex = i * batchSize;
+            const endIndex = startIndex + batchSize;
+            const batchGifts = gifts.slice(startIndex, endIndex);
+            const encryptedBatch = encryptData(batchGifts);
+            
+            if (encryptedBatch) {
+                localStorage.setItem(`encryptedGifts_${i}`, encryptedBatch);
+            } else {
+                return false;
+            }
         }
-        return false;
+        
+        return true;
     } catch (error) {
         console.error('存储礼物数据失败:', error);
         return false;
     }
 }
 
-// 获取礼物数据
+// 获取礼物数据（优化版，支持大量数据）
 function getGifts() {
     try {
-        const encryptedGifts = localStorage.getItem('encryptedGifts');
-        if (encryptedGifts) {
-            const gifts = decryptData(encryptedGifts);
-            return gifts || [];
+        const totalBatches = parseInt(localStorage.getItem('giftTotalBatches') || '1');
+        const allGifts = [];
+        
+        // 分批获取礼物数据
+        for (let i = 0; i < totalBatches; i++) {
+            const encryptedBatch = localStorage.getItem(`encryptedGifts_${i}`) || localStorage.getItem('encryptedGifts');
+            if (encryptedBatch) {
+                const batchGifts = decryptData(encryptedBatch);
+                if (Array.isArray(batchGifts)) {
+                    allGifts.push(...batchGifts);
+                }
+            }
         }
-        return [];
+        
+        return allGifts;
     } catch (error) {
         console.error('获取礼物数据失败:', error);
         return [];
@@ -56,9 +81,12 @@ function getGifts() {
 function addGift(gift) {
     try {
         const gifts = getGifts();
+        // 加密用户名
+        const encryptedName = btoa(unescape(encodeURIComponent(gift.name)));
         const newGift = {
             id: Date.now(),
-            ...gift
+            ...gift,
+            name: encryptedName // 存储加密后的用户名
         };
         gifts.push(newGift);
         return saveGifts(gifts);
@@ -74,6 +102,12 @@ function updateGift(id, updatedGift) {
         const gifts = getGifts();
         const index = gifts.findIndex(gift => gift.id === id);
         if (index !== -1) {
+            // 如果更新了名字，需要加密
+            if (updatedGift.name) {
+                const encryptedName = btoa(unescape(encodeURIComponent(updatedGift.name)));
+                updatedGift.name = encryptedName;
+            }
+            
             gifts[index] = {
                 ...gifts[index],
                 ...updatedGift
@@ -106,66 +140,32 @@ function searchGifts(keyword) {
         if (!keyword) return gifts;
         
         const searchTerm = keyword.toLowerCase();
+        // 加密搜索关键词，用于匹配加密存储的用户名
+        const encryptedKeyword = btoa(unescape(encodeURIComponent(keyword)));
+        
         return gifts.filter(gift => {
-            return (
-                gift.name.toLowerCase().includes(searchTerm) ||
-                gift.gift.toLowerCase().includes(searchTerm) ||
-                (gift.note && gift.note.toLowerCase().includes(searchTerm))
-            );
+            try {
+                // 尝试解密用户名进行匹配
+                const decryptedName = decodeURIComponent(escape(atob(gift.name)));
+                return (
+                    decryptedName.toLowerCase().includes(searchTerm) ||
+                    gift.name === encryptedKeyword || // 直接匹配加密后的用户名
+                    gift.gift.toLowerCase().includes(searchTerm) ||
+                    (gift.note && gift.note.toLowerCase().includes(searchTerm))
+                );
+            } catch (e) {
+                // 如果解密失败，使用原始值进行匹配
+                return (
+                    gift.name.toLowerCase().includes(searchTerm) ||
+                    gift.gift.toLowerCase().includes(searchTerm) ||
+                    (gift.note && gift.note.toLowerCase().includes(searchTerm))
+                );
+            }
         });
     } catch (error) {
         console.error('搜索礼物失败:', error);
         return [];
     }
-}
-
-// 导出礼物数据
-function exportGifts() {
-    try {
-        const gifts = getGifts();
-        const jsonString = JSON.stringify(gifts, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `gifts-${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        return true;
-    } catch (error) {
-        console.error('导出礼物数据失败:', error);
-        return false;
-    }
-}
-
-// 导入礼物数据
-function importGifts(jsonString) {
-    try {
-        const gifts = JSON.parse(jsonString);
-        if (Array.isArray(gifts)) {
-            return saveGifts(gifts);
-        }
-        return false;
-    } catch (error) {
-        console.error('导入礼物数据失败:', error);
-        return false;
-    }
-}
-
-// 密码验证函数
-function verifyPassword(password) {
-    // 验证农历八月初八作为密码
-    // 格式: 农历年份-月份-日期，例如: 2026-08-08
-    const validPasswords = [
-        '2026-08-08', // 2026年农历八月初八
-        '08-08',      // 简化格式: 八月初八
-        '0808',       // 无连字符格式: 0808
-        '农历八月初八' // 中文格式
-    ];
-    
-    return validPasswords.includes(password);
 }
 
 // 导出功能
@@ -176,9 +176,6 @@ if (typeof module !== 'undefined' && module.exports) {
         addGift,
         updateGift,
         deleteGift,
-        searchGifts,
-        exportGifts,
-        importGifts,
-        verifyPassword
+        searchGifts
     };
 }

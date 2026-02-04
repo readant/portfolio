@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐</title>
+    <style>
+        body{
+            background-image:url("生日快乐.png");
+            background-size:cover; /* 保持比例并覆盖整个容器，优先保证视觉完整性 */
+            background-repeat:no-repeat; /* 避免图片重复 */
+            background-position:center center; /* 图片居中显示 */
+            min-height:100vh; /* 让body至少占满整个视口高度 */
+            margin:0; /* 清除body默认外边距 */
+            padding:0; /* 清除body默认内边距*/
+        }
+    </style>
+</head>
+<body>
+    <!-- 居中大标题 -->
+    <div style="
+        position: absolute;
+        top: 18%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fffbe6;
+        font-size: 3.2rem;
+        font-family: 'ZCOOL KuaiLe', 'FZShuTi', 'STXingkai', 'FZKT', 'FZSSK', 'Microsoft YaHei', 'Arial', 'sans-serif';
+        text-shadow: 0 4px 24px #ffb7e3, 0 2px 8px #000;
+        font-weight: bold;
+        letter-spacing: 0.2em;
+        z-index: 10;
+        white-space: nowrap;
+    " id="birthdayTitle">生日快乐！</div>
+    <!-- 角落祝福 -->
+    <div style="
+        position: absolute;
+        bottom: 6%;
+        left: 7%;
+        color: #aefcff;
+        font-size: 1.6rem;
+        font-family: 'ZCOOL KuaiLe', 'FZShuTi', 'STXingkai', 'FZKT', 'FZSSK', 'Microsoft YaHei', 'Arial', 'sans-serif';
+        text-shadow: 0 2px 8px #000, 0 0 12px #fff;
+        z-index: 10;
+    ">愿你被世界温柔以待</div>
+    <!-- 右下角署名 -->
+    <div style="
+        position: absolute;
+        bottom: 4%;
+        right: 6%;
+        color: #fff;
+        font-size: 1.1rem;
+        font-family: 'ZCOOL KuaiLe', 'FZShuTi', 'STXingkai', 'FZKT', 'FZSSK', 'Microsoft YaHei', 'Arial', 'sans-serif';
+        opacity: 0.7;
+        z-index: 10;
+    ">—— 你永远的朋友</div>
+</body>
+    <div class="birthday-text" id="birthdayText">生日快乐</div>
+    <audio id="bgMusic" autoplay loop>
+        <source src="Sacred Play Secret Place(剪辑).mp3" type="audio/mpeg">
+    </audio>
+    <script>
+        // 从URL参数获取名字或使用默认值
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // 获取名字并动态显示
+        const name = getQueryParam('name') || '';
+        if (name) {
+            document.getElementById('birthdayTitle').textContent = name + '，生日快乐！';
+            document.getElementById('birthdayText').textContent = name + '生日快乐';
+            document.title = name + '，生日快乐';
+        }
+    </script>
+</html>

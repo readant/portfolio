@@ -1,7 +1,7 @@
 {
     "projects": [
         {
-            "id": "2",
+            "id": "1",
             "title": "圣诞树3D交互项目",
             "description": "一个使用Three.js创建的3D圣诞树交互项目，支持上传照片、手势控制和动态效果。",
             "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=3D%20Christmas%20tree%20with%20ornaments%20and%20lights%20interactive%20web%20project&image_size=landscape_4_3",

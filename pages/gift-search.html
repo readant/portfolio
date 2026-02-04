@@ -79,7 +79,7 @@
         }
         
         .search-content {
-            display: none;
+            display: block;
         }
         
         .search-header {
@@ -351,16 +351,7 @@
     <main class="gift-search-page">
         <div class="container">
             <div class="search-container">
-                <!-- 密码验证表单 -->
-                <div class="password-form" id="passwordForm">
-                    <h2>请输入密码</h2>
-                    <p>提示：密码是作者的农历生日</p>
-                    <input type="password" class="password-input" id="passwordInput" placeholder="请输入密码">
-                    <button class="submit-btn" id="submitPassword">验证</button>
-                    <p class="error-message" id="passwordError" style="display: none;">密码错误，请重试</p>
-                </div>
-
-                <!-- 搜索内容（密码验证后显示） -->
+                <!-- 搜索内容（直接显示） -->
                 <div class="search-content" id="searchContent">
                     <!-- 搜索头部 -->
                     <div class="search-header">
@@ -374,11 +365,23 @@
                             <label for="nameInput">寿星姓名</label>
                             <input type="text" id="nameInput" placeholder="请输入姓名">
                         </div>
+                        <div class="form-group">
+                            <label for="birthdayInput">寿星生日</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="birthdayInput" placeholder="请输入生日" style="flex: 1;">
+                                <select id="birthdayType" style="padding: 0.8rem; border: 1px solid var(--ink-medium); border-radius: 4px; background-color: var(--white);">
+                                    <option value="solar">公历</option>
+                                    <option value="lunar">农历</option>
+                                    <option value="id">证件号</option>
+                                </select>
+                            </div>
+                        </div>
                         <button type="submit" class="search-btn">
                             <i class="fas fa-search"></i>
                             <span>搜索</span>
                         </button>
                     </form>
+                    <p class="error-message" id="birthdayError" style="display: none;">生日验证失败，请重试</p>
 
                     <!-- 搜索结果 -->
                     <div class="results-section">
@@ -413,31 +416,19 @@
 
         // 初始化页面
         function initPage() {
-            // 密码验证
-            const passwordForm = document.getElementById('passwordForm');
-            const passwordInput = document.getElementById('passwordInput');
-            const submitPassword = document.getElementById('submitPassword');
-            const passwordError = document.getElementById('passwordError');
-            const searchContent = document.getElementById('searchContent');
-
             // 搜索功能
             const searchForm = document.getElementById('searchForm');
             const nameInput = document.getElementById('nameInput');
+            const birthdayInput = document.getElementById('birthdayInput');
+            const birthdayTypeInput = document.getElementById('birthdayType');
             const searchResults = document.getElementById('searchResults');
-
-            // 密码验证事件
-            submitPassword.addEventListener('click', function() {
-                const password = passwordInput.value;
-                if (verifyPassword(password)) {
-                    // 密码正确，显示搜索内容
-                    passwordForm.style.display = 'none';
-                    searchContent.style.display = 'block';
-                } else {
-                    // 密码错误，显示错误信息
-                    passwordError.style.display = 'block';
-                    setTimeout(() => {
-                        passwordError.style.display = 'none';
-                    }, 3000);
+            const birthdayError = document.getElementById('birthdayError');
+            
+            // 隐藏的礼物数据管理功能（按 Ctrl+Shift+G 触发）
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.shiftKey && e.key === 'G') {
+                    e.preventDefault();
+                    manageGiftData();
                 }
             });
 
@@ -445,18 +436,60 @@
             searchForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const name = nameInput.value.trim();
-                if (name) {
-                    const results = searchGifts(name);
-                    renderGifts(results);
-                } else {
+                const birthday = birthdayInput.value.trim();
+                const birthdayType = birthdayTypeInput.value;
+                
+                if (!name) {
                     searchResults.innerHTML = `
                         <div class="empty-result">
                             <i class="fas fa-gift" style="font-size: 3rem; margin-bottom: 1rem; color: var(--ink-medium);"></i>
                             <p>请输入姓名进行搜索</p>
                         </div>
                     `;
+                    return;
                 }
+                
+                if (!birthday) {
+                    searchResults.innerHTML = `
+                        <div class="empty-result">
+                            <i class="fas fa-calendar" style="font-size: 3rem; margin-bottom: 1rem; color: var(--ink-medium);"></i>
+                            <p>请输入生日进行验证</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // 验证生日
+                if (!verifyBirthday(birthday, birthdayType)) {
+                    birthdayError.style.display = 'block';
+                    setTimeout(() => {
+                        birthdayError.style.display = 'none';
+                    }, 3000);
+                    return;
+                }
+                
+                // 搜索礼物
+                const results = searchGifts(name);
+                renderGifts(results);
             });
+
+            // 验证生日（根据选择的类型进行验证）
+            function verifyBirthday(birthday, type) {
+                // 去除空格和特殊字符
+                const cleanBirthday = birthday.replace(/\s+/g, '');
+                
+                // 根据类型验证生日
+                switch (type) {
+                    case 'solar': // 公历
+                        return cleanBirthday === '1013' || cleanBirthday === '10-13';
+                    case 'lunar': // 农历
+                        return cleanBirthday === '十月十三' || cleanBirthday === '农历十月十三' || cleanBirthday === '农历十月十三日';
+                    case 'id': // 证件号
+                        return cleanBirthday === '1013';
+                    default:
+                        return false;
+                }
+            }
 
             // 渲染礼物列表
             function renderGifts(gifts) {
@@ -476,11 +509,44 @@
                 gifts.forEach(gift => {
                     const giftItem = document.createElement('li');
                     giftItem.className = 'gift-item';
+                    
+                    // 尝试解密名字
+                    let displayName = gift.name;
+                    try {
+                        // 尝试解密，如果失败则使用原始值
+                        const decodedName = decodeURIComponent(escape(atob(gift.name)));
+                        // 验证是否是有效的UTF-8字符串
+                        if (decodedName) {
+                            displayName = decodedName;
+                        }
+                    } catch (e) {
+                        // 解密失败，使用原始值
+                    }
+                    
                     giftItem.innerHTML = `
-                        <h4>${gift.name}</h4>
+                        <h4>${displayName}</h4>
                         <p class="gift-name">礼物：${gift.gift}</p>
                         ${gift.note ? `<p class="gift-note">备注：${gift.note}</p>` : ''}
-                        <p class="gift-date">${gift.type || '阳历'}生日：${gift.date}</p>
+                        ${gift.files && gift.files.length > 0 ? `
+                            <div class="gift-files">
+                                <p><strong>相关文件：</strong></p>
+                                <ul style="list-style: none; padding: 0;">
+                                    ${gift.files.map(file => {
+                                        const fileName = file.split('/').pop();
+                                        // 尝试解密名字，用于URL参数
+                                        let displayName = gift.name;
+                                        try {
+                                            displayName = decodeURIComponent(escape(atob(gift.name)));
+                                        } catch (e) {
+                                            // 解密失败，使用原始值
+                                        }
+                                        // 添加名字作为URL参数
+                                        const url = `../${file}?name=${encodeURIComponent(displayName)}`;
+                                        return `<li><a href="${url}" target="_blank" style="color: var(--accent-color); text-decoration: none;"><i class="fas fa-file"></i> ${fileName}</a></li>`;
+                                    }).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
                     `;
                     giftList.appendChild(giftItem);
                 });
@@ -488,6 +554,92 @@
                 searchResults.innerHTML = '';
                 searchResults.appendChild(giftList);
             }
+        }
+        
+        // 礼物数据管理功能
+        function manageGiftData() {
+            const gifts = getGifts();
+            const giftData = JSON.stringify(gifts, null, 2);
+            
+            let html = `
+                <h3>礼物数据管理</h3>
+                <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; max-height: 300px; overflow-y: auto;">${giftData}</pre>
+                <h4>更新礼物日期</h4>
+                <form id="updateDateForm" style="margin: 1rem 0;">
+                    <div style="margin: 0.5rem 0;">
+                        <label>礼物ID: <input type="text" id="giftId" placeholder="输入礼物ID"></label>
+                    </div>
+                    <div style="margin: 0.5rem 0;">
+                        <label>新日期: <input type="date" id="newDate"></label>
+                    </div>
+                    <button type="submit">更新日期</button>
+                </form>
+                <div id="updateMessage" style="margin: 1rem 0;"></div>
+            `;
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            const content = document.createElement('div');
+            content.style.cssText = `
+                background: white;
+                padding: 2rem;
+                border-radius: 8px;
+                max-width: 80%;
+                max-height: 80%;
+                overflow-y: auto;
+            `;
+            content.innerHTML = html;
+            
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+            
+            // 关闭模态框
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+            
+            // 更新日期表单提交
+            document.getElementById('updateDateForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const giftId = parseInt(document.getElementById('giftId').value);
+                const newDate = document.getElementById('newDate').value;
+                const messageElement = document.getElementById('updateMessage');
+                
+                if (!giftId || !newDate) {
+                    messageElement.textContent = '请输入礼物ID和新日期';
+                    messageElement.style.color = 'red';
+                    return;
+                }
+                
+                const success = updateGift(giftId, { date: newDate });
+                if (success) {
+                    messageElement.textContent = '日期更新成功！';
+                    messageElement.style.color = 'green';
+                    // 重新加载数据
+                    setTimeout(() => {
+                        const updatedGifts = getGifts();
+                        const updatedGiftData = JSON.stringify(updatedGifts, null, 2);
+                        content.querySelector('pre').textContent = updatedGiftData;
+                    }, 500);
+                } else {
+                    messageElement.textContent = '日期更新失败！';
+                    messageElement.style.color = 'red';
+                }
+            });
         }
     </script>
 </body>

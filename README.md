@@ -18,26 +18,24 @@
 portfolio/
 ├── index.html          # 首页
 ├── projects/           # 项目页面
-│   ├── project-template.html # 项目模板
-│   ├── portfolio-website/     # 响应式作品集网站项目
-│   │   └── index.html         # 项目首页
-│   └── christmas-tree/        # 圣诞树3D交互项目
-│       └── index.html         # 项目首页
-├── css/                # 样式文件
+│   ├── project-template/ # 项目模板
+│   ├── christmas-tree/  # 圣诞树3D交互项目
+│   └── ...            # 其他项目
+├── css/               # 样式文件
 │   ├── style.css       # 主样式
 │   ├── projects.css    # 项目页面样式
 │   └── variables.css   # CSS变量
-├── js/                 # JavaScript文件
+├── js/                # JavaScript文件
 │   ├── main.js         # 主脚本
 │   └── projects.js     # 项目相关脚本
-├── data/               # 数据文件
+├── data/              # 数据文件
 │   └── projects.json   # 项目数据
-├── assets/             # 资源文件
+├── assets/            # 资源文件
 │   ├── images/         # 图片
-│   │   ├── projects/   # 项目图片
-│   │   └── avatar.png  # 个人头像
+│   │   ├── avatar.png  # 个人头像
+│   │   └── background.jpg # 背景图片
 │   └── icons/          # 图标
-└── README.md           # 项目说明
+└── README.md          # 项目说明
 ```
 
 ## 如何使用
@@ -49,7 +47,7 @@ portfolio/
 ### 2. 添加新项目
 
 1. **创建项目文件夹**: 在 `projects/` 目录下创建新的项目文件夹，例如 `projects/new-project/`
-2. **创建项目页面**: 复制 `projects/project-template.html` 到新创建的文件夹中，并命名为 `index.html`
+2. **创建项目页面**: 复制 `projects/project-template/index.html` 到新创建的文件夹中
 3. **更新项目数据**: 编辑 `data/projects.json` 文件，添加新项目信息，设置正确的 `link` 路径（例如 `"link": "projects/new-project/index.html"`）
 4. **添加项目图片**: 将项目图片放入 `assets/images/projects/` 目录，或在项目文件夹中创建 `images` 子目录
 
@@ -122,8 +120,7 @@ portfolio/
 
 本项目包含以下示例项目：
 
-- **项目1**: `projects/project1.html` - 示例项目页面
-- **圣诞树**: `projects/圣诞树.html` - 3D交互式圣诞树项目
+- **圣诞树**: `projects/christmas-tree/` - 3D交互式圣诞树项目
 
 ## 许可证
 
