@@ -882,6 +882,7 @@ body::after {
 }
 
 /* 响应式设计 */
+/* 平板设备 */
 @media (max-width: 768px) {
     .about-content {
         flex-direction: column;
@@ -911,5 +912,117 @@ body::after {
     
     .projects-grid {
         grid-template-columns: 1fr;
+    }
+    
+    /* 礼物搜索页面响应式调整 */
+    .search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    /* 调整容器宽度 */
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    /* 调整section内边距 */
+    .about-section,
+    .skills-section,
+    .projects-section {
+        padding: var(--spacing-xl) 0;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 480px) {
+    /* 调整字体大小 */
+    :root {
+        --font-size-base: 14px;
+        --font-size-large: 16px;
+        --font-size-xlarge: 18px;
+        --font-size-xxlarge: 20px;
+    }
+    
+    /* 调整间距 */
+    :root {
+        --spacing-sm: 8px;
+        --spacing-md: 12px;
+        --spacing-lg: 16px;
+        --spacing-xl: 24px;
+        --spacing-xxl: 32px;
+    }
+    
+    /* 调整导航栏 */
+    .navbar-brand a {
+        font-size: var(--font-size-large);
+        letter-spacing: 2px;
+    }
+    
+    .navbar-menu {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .navbar-menu li {
+        margin: 0;
+    }
+    
+    /* 调整技能网格 */
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* 调整项目卡片 */
+    .project-card {
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    /* 调整礼物搜索页面 */
+    .search-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .search-form {
+        gap: var(--spacing-sm);
+    }
+    
+    .form-group {
+        min-width: 100%;
+    }
+    
+    /* 调整页脚 */
+    .footer {
+        padding: var(--spacing-lg) 0;
+    }
+    
+    /* 隐藏装饰元素 */
+    .ink-decoration-left,
+    .ink-decoration-right,
+    .ink-decoration-top,
+    .ink-decoration-bottom,
+    .vertical-line-left,
+    .vertical-line-right {
+        display: none;
+    }
+}
+
+/* 大屏幕设备 */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1400px;
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
 }

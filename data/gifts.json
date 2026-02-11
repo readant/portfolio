@@ -1,0 +1,19 @@
+{
+  "gifts": [
+    {
+      "id": 1,
+      "name": "6YOt5oCd5rqQ",
+      "gift": "生日礼物",
+      "note": "第一个生日礼物",
+      "date": "2025-10-13",
+      "type": "公历",
+      "files": [
+        "assets/gifts/guosiyuan/文字云2.0.html",
+        "assets/gifts/guosiyuan/文字云浮现0.3.html",
+        "assets/gifts/guosiyuan/Sacred Play Secret Place(剪辑).mp3",
+        "assets/gifts/guosiyuan/The Way I Still Love You(剪辑).mp3",
+        "assets/gifts/guosiyuan/生日快乐.png"
+      ]
+    }
+  ]
+}

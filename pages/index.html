@@ -1,0 +1,134 @@
+http://localhost:8000/http://localhost:8000/<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人作品集</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 水墨装饰背景 -->
+    <div class="ink-decoration-left"></div>
+    <div class="ink-decoration-right"></div>
+    <div class="ink-decoration-top"></div>
+    <div class="ink-decoration-bottom"></div>
+    <div class="vertical-line-left"></div>
+    <div class="vertical-line-right"></div>
+    
+    <!-- 导航栏 -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a href="index.html">我的作品集</a>
+                </div>
+                <ul class="navbar-menu">
+                    <li><a href="index.html#about">关于我</a></li>
+                    <li><a href="index.html#skills">技能</a></li>
+                    <li class="project-menu-item">
+                        <a href="index.html#projects">项目</a>
+                        <a href="gift-search.html" class="seal-decoration">L君</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 个人简介 -->
+    <section id="about" class="about-section">
+        <div class="ink-decoration-section"></div>
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="section-decoration-left"></div>
+                    <h2>你好，我是 <span class="highlight">readant</span></h2>
+                    <p>我是一名热爱编程的前端开发者，专注于创建美观、实用的网页应用。</p>
+                    <p>欢迎来到我的作品集网站，这里展示了我近期的一些项目和技能。</p>
+                    <div class="social-links">
+                        <a href="https://github.com/readant" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="https://readant.github.io/" target="_blank" class="social-link"><i class="fas fa-blog"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                    <div class="section-decoration-right"></div>
+                </div>
+                <div class="about-image">
+                    <div class="image-frame">
+                        <img src="../assets/images/avatar.png" alt="个人头像">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能列表 -->
+    <section id="skills" class="skills-section">
+        <div class="ink-decoration-section"></div>
+        <div class="container">
+            <div class="section-header">
+                <div class="section-decoration-left"></div>
+                <h2>我的技能</h2>
+                <div class="section-decoration-right"></div>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <div class="skill-decoration"></div>
+                    <i class="fas fa-code"></i>
+                    <h3>HTML5 & CSS3</h3>
+                    <p>响应式网页设计，语义化HTML结构</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-decoration"></div>
+                    <i class="fas fa-brain"></i>
+                    <h3>JavaScript</h3>
+                    <p>基础JavaScript编程，DOM操作</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-decoration"></div>
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>网页设计</h3>
+                    <p>美观的UI设计，用户体验优化</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-decoration"></div>
+                    <i class="fas fa-tools"></i>
+                    <h3>开发工具</h3>
+                    <p>Git版本控制，VS Code编辑器</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目展示 -->
+    <section id="projects" class="projects-section">
+        <div class="ink-decoration-section"></div>
+        <div class="container">
+            <div class="section-header">
+                <div class="section-decoration-left"></div>
+                <h2>我的项目</h2>
+                <div class="section-decoration-right"></div>
+            </div>
+            <div class="projects-grid" id="projects-grid">
+                <!-- 项目卡片将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="ink-decoration-section"></div>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-decoration-left"></div>
+                <p>&copy; 2026 我的作品集. 保留所有权利.</p>
+                <div class="footer-decoration-right"></div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

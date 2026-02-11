@@ -363,25 +363,36 @@
                     <form class="search-form" id="searchForm">
                         <div class="form-group">
                             <label for="nameInput">寿星姓名</label>
-                            <input type="text" id="nameInput" placeholder="请输入姓名">
+                            <input type="text" id="nameInput" placeholder="请输入姓名" required>
+                            <p class="error-message" id="nameError" style="display: none; margin: 0.3rem 0 0 0;">请输入姓名</p>
                         </div>
                         <div class="form-group">
                             <label for="birthdayInput">寿星生日</label>
                             <div style="display: flex; gap: 10px;">
-                                <input type="text" id="birthdayInput" placeholder="请输入生日" style="flex: 1;">
+                                <input type="text" id="birthdayInput" placeholder="请输入生日" required style="flex: 1;">
                                 <select id="birthdayType" style="padding: 0.8rem; border: 1px solid var(--ink-medium); border-radius: 4px; background-color: var(--white);">
                                     <option value="solar">公历</option>
                                     <option value="lunar">农历</option>
                                     <option value="id">证件号</option>
                                 </select>
                             </div>
+                            <p class="error-message" id="birthdayFormatError" style="display: none; margin: 0.3rem 0 0 0;">请输入生日</p>
                         </div>
-                        <button type="submit" class="search-btn">
+                        <button type="submit" class="search-btn" id="searchButton">
                             <i class="fas fa-search"></i>
                             <span>搜索</span>
                         </button>
                     </form>
                     <p class="error-message" id="birthdayError" style="display: none;">生日验证失败，请重试</p>
+                    <div class="loading-indicator" id="loadingIndicator" style="display: none; text-align: center; margin: 1rem 0;">
+                        <div style="display: inline-block; width: 20px; height: 20px; border: 2px solid var(--ink-medium); border-radius: 50%; border-top-color: var(--accent-color); animation: spin 1s ease-in-out infinite;"></div>
+                        <p style="margin: 0.5rem 0 0 0; color: var(--text-light);">搜索中...</p>
+                    </div>
+                    <style>
+                        @keyframes spin {
+                            to { transform: rotate(360deg); }
+                        }
+                    </style>
 
                     <!-- 搜索结果 -->
                     <div class="results-section">
@@ -410,9 +421,22 @@
     <script>
         // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
+            // 初始化礼物数据
+            initGiftData();
             // 初始化页面
             initPage();
         });
+        
+        // 初始化礼物数据
+        async function initGiftData() {
+            try {
+                // 调用 getGifts 函数，它会自动从远程 JSON 文件加载数据
+                await getGifts();
+                console.log('礼物数据初始化成功！');
+            } catch (error) {
+                console.error('礼物数据初始化失败:', error);
+            }
+        }
 
         // 初始化页面
         function initPage() {
@@ -439,28 +463,30 @@
                 const birthday = birthdayInput.value.trim();
                 const birthdayType = birthdayTypeInput.value;
                 
+                // 重置错误信息
+                document.getElementById('nameError').style.display = 'none';
+                document.getElementById('birthdayFormatError').style.display = 'none';
+                birthdayError.style.display = 'none';
+                
+                // 验证输入
+                let isValid = true;
                 if (!name) {
-                    searchResults.innerHTML = `
-                        <div class="empty-result">
-                            <i class="fas fa-gift" style="font-size: 3rem; margin-bottom: 1rem; color: var(--ink-medium);"></i>
-                            <p>请输入姓名进行搜索</p>
-                        </div>
-                    `;
-                    return;
+                    document.getElementById('nameError').style.display = 'block';
+                    isValid = false;
+                }
+                if (!birthday) {
+                    document.getElementById('birthdayFormatError').style.display = 'block';
+                    isValid = false;
                 }
                 
-                if (!birthday) {
-                    searchResults.innerHTML = `
-                        <div class="empty-result">
-                            <i class="fas fa-calendar" style="font-size: 3rem; margin-bottom: 1rem; color: var(--ink-medium);"></i>
-                            <p>请输入生日进行验证</p>
-                        </div>
-                    `;
+                if (!isValid) {
                     return;
                 }
                 
                 // 验证生日
-                if (!verifyBirthday(birthday, birthdayType)) {
+                const isBirthdayValid = verifyBirthday(birthday, birthdayType);
+                
+                if (!isBirthdayValid) {
                     birthdayError.style.display = 'block';
                     setTimeout(() => {
                         birthdayError.style.display = 'none';
@@ -468,9 +494,36 @@
                     return;
                 }
                 
-                // 搜索礼物
-                const results = searchGifts(name);
-                renderGifts(results);
+                // 显示加载状态
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                const searchButton = document.getElementById('searchButton');
+                const originalButtonContent = searchButton.innerHTML;
+                
+                loadingIndicator.style.display = 'block';
+                searchButton.disabled = true;
+                searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>搜索中...</span>';
+                
+                // 搜索礼物（使用setTimeout模拟异步操作，提高用户体验）
+                setTimeout(() => {
+                    try {
+                        const results = searchGifts(name);
+                        // 渲染礼物
+                        renderGifts(results);
+                    } catch (error) {
+                        console.error('搜索礼物失败:', error);
+                        searchResults.innerHTML = `
+                            <div class="empty-result">
+                                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem; color: #dc3545;"></i>
+                                <p>搜索过程中发生错误，请重试</p>
+                            </div>
+                        `;
+                    } finally {
+                        // 隐藏加载状态
+                        loadingIndicator.style.display = 'none';
+                        searchButton.disabled = false;
+                        searchButton.innerHTML = originalButtonContent;
+                    }
+                }, 300);
             });
 
             // 验证生日（根据选择的类型进行验证）
@@ -481,13 +534,16 @@
                 // 根据类型验证生日
                 switch (type) {
                     case 'solar': // 公历
-                        return cleanBirthday === '1013' || cleanBirthday === '10-13';
+                        // 接受更多格式：1013, 10-13, 2025-10-13
+                        return cleanBirthday === '1013' || cleanBirthday === '10-13' || cleanBirthday.includes('10-13') || cleanBirthday.includes('1013');
                     case 'lunar': // 农历
-                        return cleanBirthday === '十月十三' || cleanBirthday === '农历十月十三' || cleanBirthday === '农历十月十三日';
+                        // 接受更多格式：十月十三, 农历十月十三, 农历十月十三日
+                        return cleanBirthday.includes('十月十三');
                     case 'id': // 证件号
-                        return cleanBirthday === '1013';
+                        // 接受更多格式：1013, 包含1013的字符串
+                        return cleanBirthday === '1013' || cleanBirthday.includes('1013');
                     default:
-                        return false;
+                        return true; // 默认允许所有格式
                 }
             }
 
@@ -495,7 +551,7 @@
             function renderGifts(gifts) {
                 if (gifts.length === 0) {
                     searchResults.innerHTML = `
-                        <div class="empty-result">
+                        <div class="empty-result" style="animation: fadeIn 0.5s ease-in-out;">
                             <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; color: var(--ink-medium);"></i>
                             <p>未找到匹配的礼物</p>
                         </div>
@@ -506,9 +562,12 @@
                 const giftList = document.createElement('ul');
                 giftList.className = 'gift-list';
 
-                gifts.forEach(gift => {
+                gifts.forEach((gift, index) => {
                     const giftItem = document.createElement('li');
                     giftItem.className = 'gift-item';
+                    giftItem.style.opacity = '0';
+                    giftItem.style.transform = 'translateY(20px)';
+                    giftItem.style.transition = `opacity 0.5s ease-in-out ${index * 0.1}s, transform 0.5s ease-in-out ${index * 0.1}s`;
                     
                     // 尝试解密名字
                     let displayName = gift.name;
@@ -553,7 +612,36 @@
 
                 searchResults.innerHTML = '';
                 searchResults.appendChild(giftList);
+                
+                // 触发动画
+                setTimeout(() => {
+                    const giftItems = giftList.querySelectorAll('.gift-item');
+                    giftItems.forEach(item => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    });
+                }, 10);
             }
+            
+            // 添加CSS动画
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                .empty-result {
+                    animation: fadeIn 0.5s ease-in-out;
+                }
+            `;
+            document.head.appendChild(style);
         }
         
         // 礼物数据管理功能
